@@ -3,11 +3,14 @@ from flask import  Flask
 from flask_cors import CORS
 from routes.animes import animes
 app  =Flask(__name__)
-CORS(app)
+
 envmode = os.environ['envmode'] 
 @app.route('/')
 def index():
     return "si"
+
+CORS(app)   
+
 app.register_blueprint(animes)
 if __name__ == '__main__':
     if envmode == 'prod':
