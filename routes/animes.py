@@ -15,25 +15,14 @@ class general():
             return anime
         anime['recomendation'] = "I do not recommend it." if float(anime['score']) >= 1 and float(anime['score']) <= 4  else "You may have fun." if float(anime['score']) >= 5 and float(anime['score']) <= 7 else "Great, this is one of the best anime."
         return anime
-    def while_for_pages(self,title):
-        page = 1
-        state = True
-        data_full = []
-        while state ==True:
-            data,state = self.get(title,page=page)
-            page += 1
-            data_full += data
-        return data_full
 
 class Animes(Resource,general):
     def get(self):
         args = json.loads(json.dumps({k: request.args[k] for k in request.args.keys()}))
         title = args['title']
-        print(title)
+        # print(title)
         data = getattr(requests, "get")(url=f"https://api.jikan.moe/v4/anime?q={title}&sfw").json()
         data_full = [self.put_recomendation(anime) for anime in data['data'] ]
-        return data_full,data['pagination']['has_next_page']
-    def get_by_pages(self,title):
-        return self.while_for_pages(title)
+        return data_full
 
 api.add_resource(Animes, '/api/v1.0/animes',endpoint='')

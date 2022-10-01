@@ -5,6 +5,7 @@ from routes.animes import animes
 app = Flask(__name__)
 
 envmode = os.environ['envmode'] 
+
 @app.route('/')
 def index():
     return "si"
